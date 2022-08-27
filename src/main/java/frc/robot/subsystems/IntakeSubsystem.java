@@ -8,18 +8,17 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private CANSparkMax intake;
-    private Solenoid dropIntake;
+    private CANSparkMax intake = new CANSparkMax(1, MotorType.kBrushless);
+
+    private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
 
     public IntakeSubsystem() {
-        intake = new CANSparkMax(1, MotorType.kBrushless);
         intake.restoreFactoryDefaults();
-
-        dropIntake = new Solenoid(1, PneumaticsModuleType.REVPH, 4);
 
     }
 
@@ -33,11 +32,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void retractDrop() {
-        dropIntake.set(false);
+        solenoid.set(false);
     }
 
     public void actuateDrop() {
-        dropIntake.set(true);
+        solenoid.set(true);
     }
 
     public void stop() {
@@ -45,7 +44,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public Solenoid getDropIntake() {
-        return dropIntake;
+        return solenoid;
     }
 
     public CANSparkMax getIntake() {
@@ -53,6 +52,6 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void toggleDropIntake() {
-        dropIntake.toggle();
+        solenoid.toggle();
     }
 }
